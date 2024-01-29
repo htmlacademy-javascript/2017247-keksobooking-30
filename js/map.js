@@ -1,4 +1,4 @@
-import { activateFormElement, onAddressChange } from './form.js';
+import { activateFormElement } from './form.js';
 import { createAdCard } from './card.js';
 import { bootstrap } from './data.js';
 import { filterSimilarAds } from './filters.js';
@@ -9,11 +9,11 @@ const RERENDER_DELAY = 500;
 
 const TILE_LAYER = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const COPYRIGHT = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
-const ZOOM = 10;
+const ZOOM = 13;
 
 const CITY_CENTER = {
-  lat: 35.701384,
-  lng: 139.715669
+  lat: 35.676404,
+  lng: 139.761349
 };
 
 const startCoordinate = {
@@ -82,7 +82,6 @@ const onMainPinMarkerMoveend = () => {
   mainPinMarker.on('moveend', (evt) => {
     const coordinates = evt.target.getLatLng();
     addressElement.value = `${coordinates.lat.toFixed(5)}, ${coordinates.lng.toFixed(5)}`;
-    onAddressChange();
   });
 };
 
@@ -154,4 +153,4 @@ const resetMap = () => {
   }
 };
 
-export { initializeMap, CITY_CENTER, mainPinMarker, onMainPinMarkerMoveend, renderMarkers, resetMap };
+export { initializeMap, onMainPinMarkerMoveend, renderMarkers, resetMap };
