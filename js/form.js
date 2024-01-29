@@ -1,6 +1,5 @@
 import { resetMap, onMainPinMarkerMoveend } from './map.js';
 import { createSlider, updateSliderOptions, resetSlider } from './price-range-slider.js';
-import { CITY_CENTER, mainPinMarker } from './map.js';
 import { sendData } from './api.js';
 import { showSuccessMessage, showErrorMessage } from './status-message.js';
 import { createThumbnailPhoto, renderThumbnail, resetImages } from './upload-image.js';
@@ -38,7 +37,6 @@ const SubmitButtonCaption = {
 const formElement = document.querySelector('.ad-form');
 const mapFiltersElement = document.querySelector('.map__filters');
 const titleElement = formElement.querySelector('#title');
-const addressElement = formElement.querySelector('#address');
 const priceElement = formElement.querySelector('#price');
 const typeElement = formElement.querySelector('#type');
 const roomElement = formElement.querySelector('#room_number');
@@ -119,9 +117,6 @@ const hasValidPhoto = (file) => {
 // Проверка длины заголовка
 const hasValidLengthTitle = (value) => value.length >= TitleLength.MIN && value.length <= TitleLength.MAX;
 
-// Проверка указания адресных координат
-const hasValidAddress = () => addressElement.value !== `${CITY_CENTER.lat.toFixed(5)}, ${CITY_CENTER.lng.toFixed(5)}`;
-
 // Проверка минимальной цены
 const hasValidPriceMin = (value) => {
   priceElement.min = Price.MIN[typeElement.value];
@@ -153,14 +148,6 @@ pristine.addValidator(
   titleElement,
   hasValidLengthTitle,
   `Минимальная длина — ${TitleLength.MIN} символов, максимальная длина — ${TitleLength.MAX} символов`,
-  1,
-  true
-);
-
-pristine.addValidator(
-  addressElement,
-  hasValidAddress,
-  'Это поле заполняется автоматически, перемещением красного маркера на карте',
   1,
   true
 );
@@ -200,10 +187,6 @@ pristine.addValidator(
 const onAvatarChange = (evt) => {
   pristine.validate(avatarFieldElement);
   renderThumbnail(evt.target.files[0], previewAvatar);
-};
-
-const onAddressChange = () => {
-  pristine.validate(mainPinMarker);
 };
 
 const onPriceChange = () => {
@@ -291,5 +274,5 @@ photoFieldElement.addEventListener('change', onPhotoChange);
 formElement.addEventListener('submit', onFormSubmit);
 formElement.addEventListener('reset', onFormReset);
 
-export { Price, activateFormElement, activateMapFiltersElement, onPriceChange, onAddressChange };
+export { Price, activateFormElement, activateMapFiltersElement, onPriceChange };
 
